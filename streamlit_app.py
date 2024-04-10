@@ -31,14 +31,12 @@ with st.sidebar:
     st.title('🥇 Olympic Games Medals')
 
     # Define dropdown selectors for season, year, and country
-    year_dropdown = alt.binding_select(options=olympics['Year'].unique().tolist())
-    year_selector = alt.selection_single(fields=['Year'], bind=year_dropdown, name='Select Year')
-
-    country_dropdown = alt.binding_select(options=olympics['Country'].unique().tolist())
-    country_selector = alt.selection_single(fields=['Country'], bind=country_dropdown, name='Select Country')
-
-    season_radio = alt.binding_radio(options=olympics['Season'].unique().tolist())
-    season_selector = alt.selection_single(fields=['Season'], bind=season_radio, name='Select Season')
+    
+    year_list = list(olympics.Year.unique())[::-1]
+    
+    selected_year = st.selectbox('Select a year', year_list)
+    df_selected_year = df_reshaped[df_reshaped.year == selected_year]
+    df_selected_year_sorted = df_selected_year.sort_values(by="population", ascending=False)
 
 x = st.slider("Select a value")
 st.write(x, "squared is", x * x)
