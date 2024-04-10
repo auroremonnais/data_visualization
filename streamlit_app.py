@@ -32,7 +32,8 @@ with st.sidebar:
     st.subheader('Type of Medals and Sports Analysis')
 
     # Define dropdown selectors for season, year, and country
-    season_dropdown = st.selectbox('Select Season', ['summer', 'winter'])
+    #season_dropdown = st.selectbox('Select Season', ['summer', 'winter'])
+    season_button = st.radio('Select Season', ['summer', 'winter'])
     year_dropdown = st.selectbox('Select Year', olympics['Year'].unique())
     country_dropdown = st.selectbox('Select Country', olympics['Country'].unique())
 
