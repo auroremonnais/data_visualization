@@ -35,7 +35,7 @@ with st.sidebar:
     year_list = list(olympics.Year.unique())[::-1]
     
     selected_year = st.selectbox('Select a year', year_list)
-    df_selected_year = df_reshaped[df_reshaped.year == selected_year]
+    df_selected_year = olympics[olympics.Year == selected_year]
     df_selected_year_sorted = df_selected_year.sort_values(by="population", ascending=False)
 
 x = st.slider("Select a value")
