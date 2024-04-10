@@ -98,6 +98,8 @@ def update():
 # Initial update
 medal_chart, sport_chart = update()
 
+st.title('🥇 Olympic Games Medals')
+
 # Display charts in two columns
 col1, col2 = st.columns(2)
 with col1:
