@@ -2,8 +2,8 @@ import streamlit as st
 
 # Page configuration
 st.set_page_config(
-    page_title="US Population Dashboard",
-    page_icon="🏂",
+    page_title="Olympic Games Medals",
+    page_icon="🏆",
     layout="wide",
     initial_sidebar_state="expanded")
 
