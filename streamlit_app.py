@@ -99,3 +99,63 @@ with col1:
     st.altair_chart(medal_chart, use_container_width=True)
 with col2:
     st.altair_chart(sport_chart, use_container_width=True)
+
+# Third charts
+
+# Define dropdown selector for country
+country_dropdown = alt.binding_select(options=olympics['Country'].unique().tolist())
+country_selector = alt.selection_single(fields=['Country'], bind=country_dropdown, name='Select Country')
+
+# Filter data for Summer and Winter Olympics
+summer_data = olympics[olympics['Season'] == 'summer']
+winter_data = olympics[olympics['Season'] == 'winter']
+
+# Aggregate the data to calculate total male and female athletes per country in each Olympic year for Summer Olympics
+aggregated_summer_data = summer_data.groupby(['Year', 'Country', 'Gender']).size().reset_index(name='Count')
+
+# Aggregate the data to calculate total male and female athletes per country in each Olympic year for Winter Olympics
+aggregated_winter_data = winter_data.groupby(['Year', 'Country', 'Gender']).size().reset_index(name='Count')
+
+# Create a base chart for Summer Olympics
+summer_chart = alt.Chart(aggregated_summer_data).mark_line().encode(
+    x=alt.X('Year:O', axis=alt.Axis(title='Year')),
+    y='Count:Q',
+    color='Gender:N',
+    tooltip=['Year:O', 'Gender:N', 'Count:Q']
+).properties(
+    width=400,
+    height=400,
+    title='Summer Olympics'
+)
+
+# Apply selector and transform the data based on the selected country for Summer Olympics
+filtered_summer_chart = summer_chart.add_selection(
+    country_selector
+).transform_filter(
+    country_selector
+)
+
+# Create a base chart for Winter Olympics
+winter_chart = alt.Chart(aggregated_winter_data).mark_line().encode(
+    x=alt.X('Year:O', axis=alt.Axis(title='Year')),
+    y='Count:Q',
+    color='Gender:N',
+    tooltip=['Year:O', 'Gender:N', 'Count:Q']
+).properties(
+    width=400,
+    height=400,
+    title='Winter Olympics'
+)
+
+# Apply selector and transform the data based on the selected country for Winter Olympics
+filtered_winter_chart = winter_chart.add_selection(
+    country_selector
+).transform_filter(
+    country_selector
+)
+
+# Combine the two charts
+combined_chart = alt.hconcat(filtered_summer_chart, filtered_winter_chart)
+
+# Show the combined chart underneath the existing charts
+st.write(combined_chart)
