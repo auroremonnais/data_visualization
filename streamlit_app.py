@@ -1,12 +1,7 @@
 # Imports
 import streamlit as st
 import pandas as pd
-import panel as pn
 import altair as alt
-
-# Panel Extension
-pn.extension()
-pn.extension('vega')
 
 # Page configuration
 st.set_page_config(
@@ -36,9 +31,14 @@ with st.sidebar:
     st.title('🥇 Olympic Games Medals')
 
     # Define dropdown selectors for season, year, and country
-    season_dropdown = pn.widgets.Select(options=['summer', 'winter'], name='Select Season')
-    year_dropdown = pn.widgets.Select(name='Select Year')
-    country_dropdown = pn.widgets.Select(name='Select Country')
+    year_dropdown = alt.binding_select(options=olympics['Year'].unique().tolist())
+    year_selector = alt.selection_single(fields=['Year'], bind=year_dropdown, name='Select Year')
+
+    country_dropdown = alt.binding_select(options=olympics['Country'].unique().tolist())
+    country_selector = alt.selection_single(fields=['Country'], bind=country_dropdown, name='Select Country')
+
+    season_radio = alt.binding_radio(options=olympics['Season'].unique().tolist())
+    season_selector = alt.selection_single(fields=['Season'], bind=season_radio, name='Select Season')
 
 x = st.slider("Select a value")
 st.write(x, "squared is", x * x)
