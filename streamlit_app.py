@@ -35,13 +35,6 @@ with st.sidebar:
     year_dropdown = st.selectbox('Select Year', olympics['Year'].unique())
     country_dropdown = st.selectbox('Select Country', olympics['Country'].unique())
 
-
-
-# Define dropdown selectors for season, year, and country
-#season_dropdown = st.selectbox('Select Season', ['summer', 'winter'])
-#year_dropdown = st.selectbox('Select Year', olympics['Year'].unique())
-#country_dropdown = st.selectbox('Select Country', olympics['Country'].unique())
-
 # Define a function to filter data based on selected filters
 def filter_data(year, country, season):
     filtered_data = olympics[(olympics['Year'] == year) & (olympics['Country'] == country) & (olympics['Season'] == season)]
@@ -95,8 +88,14 @@ def update():
     filtered_data = filter_data(year_dropdown, country_dropdown, season_dropdown)
     medal_chart = create_medal_chart(filtered_data)
     sport_chart = create_sport_chart(filtered_data)
-    st.altair_chart(medal_chart, use_container_width=True)
-    st.altair_chart(sport_chart, use_container_width=True)
+    return medal_chart, sport_chart
 
 # Initial update
-update()
+medal_chart, sport_chart = update()
+
+# Display charts in two columns
+col1, col2 = st.columns(2)
+with col1:
+    st.altair_chart(medal_chart, use_container_width=True)
+with col2:
+    st.altair_chart(sport_chart, use_container_width=True)
