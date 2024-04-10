@@ -90,7 +90,7 @@ def create_sport_chart(filtered_data):
 
 # Define the function to update the visualization when filters change
 def update():
-    filtered_data = filter_data(year_dropdown, country_dropdown, season_dropdown)
+    filtered_data = filter_data(year_dropdown, country_dropdown, season_button)
     medal_chart = create_medal_chart(filtered_data)
     sport_chart = create_sport_chart(filtered_data)
     return medal_chart, sport_chart
