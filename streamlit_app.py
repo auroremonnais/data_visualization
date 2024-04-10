@@ -36,7 +36,7 @@ with st.sidebar:
     year_dropdown = st.selectbox('Select Year', olympics['Year'].unique())
     country_dropdown = st.selectbox('Select Country', olympics['Country'].unique())
 
-st.subheader('Gender Evolution Analysis')
+    st.subheader('Gender Evolution Analysis')
 
 # Define a function to filter data based on selected filters
 def filter_data(year, country, season):
@@ -99,8 +99,10 @@ medal_chart, sport_chart = update()
 # Display charts in two columns
 col1, col2 = st.columns(2)
 with col1:
+    st.subheader('Distribution of Medals per Type')
     st.altair_chart(medal_chart, use_container_width=True)
 with col2:
+    st.subheader('Distribution of Medals per Sport')
     st.altair_chart(sport_chart, use_container_width=True)
 
 # Third charts
