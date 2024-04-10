@@ -31,16 +31,16 @@ with st.sidebar:
     st.title('🥇 Olympic Games Medals')
 
     # Define dropdown selectors for season, year, and country
-    #season_dropdown = st.selectbox('Select Season', ['summer', 'winter'])
-    #year_dropdown = st.selectbox('Select Year', olympics['Year'].unique())
-    #country_dropdown = st.selectbox('Select Country', olympics['Country'].unique())
+    season_dropdown = st.selectbox('Select Season', ['summer', 'winter'])
+    year_dropdown = st.selectbox('Select Year', olympics['Year'].unique())
+    country_dropdown = st.selectbox('Select Country', olympics['Country'].unique())
 
 
 
 # Define dropdown selectors for season, year, and country
-season_dropdown = st.selectbox('Select Season', ['summer', 'winter'])
-year_dropdown = st.selectbox('Select Year', olympics['Year'].unique())
-country_dropdown = st.selectbox('Select Country', olympics['Country'].unique())
+#season_dropdown = st.selectbox('Select Season', ['summer', 'winter'])
+#year_dropdown = st.selectbox('Select Year', olympics['Year'].unique())
+#country_dropdown = st.selectbox('Select Country', olympics['Country'].unique())
 
 # Define a function to filter data based on selected filters
 def filter_data(year, country, season):
