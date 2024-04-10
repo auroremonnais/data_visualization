@@ -37,11 +37,3 @@ with st.sidebar:
 
 # Dashboard Main Panel
 col = st.columns((1.5, 4.5, 2), gap='medium')
-
-with col[0]:
-
-    # Define dropdown selectors for season, year, and country
-    season_dropdown1 = st.selectbox('Select Season', ['summer', 'winter'])
-    year_dropdown2 = st.selectbox('Select Year', olympics['Year'].unique())
-    country_dropdown3 = st.selectbox('Select Country', olympics['Country'].unique())
-
