@@ -38,6 +38,9 @@ with st.sidebar:
 
     st.subheader('Gender Evolution Analysis')
 
+    country_dropdown = alt.binding_select(options=olympics['Country'].unique().tolist())
+    country_selector = alt.selection_single(fields=['Country'], bind=country_dropdown, name='Select Country')
+
 # Define a function to filter data based on selected filters
 def filter_data(year, country, season):
     filtered_data = olympics[(olympics['Year'] == year) & (olympics['Country'] == country) & (olympics['Season'] == season)]
@@ -108,8 +111,8 @@ with col2:
 # Third charts
 
 # Define dropdown selector for country
-country_dropdown = alt.binding_select(options=olympics['Country'].unique().tolist())
-country_selector = alt.selection_single(fields=['Country'], bind=country_dropdown, name='Select Country')
+#country_dropdown = alt.binding_select(options=olympics['Country'].unique().tolist())
+#country_selector = alt.selection_single(fields=['Country'], bind=country_dropdown, name='Select Country')
 
 # Filter data for Summer and Winter Olympics
 summer_data = olympics[olympics['Season'] == 'summer']
@@ -163,4 +166,5 @@ filtered_winter_chart = winter_chart.add_selection(
 combined_chart = alt.hconcat(filtered_summer_chart, filtered_winter_chart)
 
 # Show the combined chart underneath the existing charts
+st.subheader('Total Number of Medals by Gender Evolution')
 st.write(combined_chart)
