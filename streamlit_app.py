@@ -38,7 +38,7 @@ with st.sidebar:
     country_dropdown = st.selectbox('Select Country', olympics['Country'].unique())
 
     st.subheader('Gender Evolution Analysis')
-    country_selector = st.selectbox('Select Country', olympics['Country'].unique())
+    
 
 # Define a function to filter data based on selected filters
 def filter_data(year, country, season):
