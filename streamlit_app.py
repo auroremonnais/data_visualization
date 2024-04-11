@@ -79,15 +79,18 @@ def create_sport_chart(filtered_data):
     # Aggregate the filtered data to count the number of sports per country in each Olympic year
     aggregated_data = filtered_data.groupby(['Year', 'Country', 'Season', 'Sport']).size().reset_index(name='Count')
 
+    # Create the selectors
+    pie_selector = alt.selection_point()
+    
     # Create a pie chart
     chart = alt.Chart(aggregated_data).mark_arc().encode(
         theta='Count:Q',
-        color='Sport:N',
+        color=alt.condition(pie_selector, 'Sport:N', alt.value('lightgray')),
         tooltip=['Country', 'Year', 'Season', 'Sport', 'Count']
     ).properties(
         width=400,
         height=400
-    )
+    ).add_params(pie_selector)
     return chart
 
 def create_gender_chart(filtered_data):
