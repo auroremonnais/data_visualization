@@ -67,7 +67,7 @@ def create_medal_chart(filtered_data):
         color=alt.Color('Medal:N', scale=alt.Scale(domain=['Gold', 'Silver', 'Bronze'], range=[medal_colors['Gold'], medal_colors['Silver'], medal_colors['Bronze']])),
     ).properties(
         width=400,
-        height=400,
+        height=400
         )
     return chart
 
