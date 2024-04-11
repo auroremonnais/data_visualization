@@ -31,14 +31,11 @@ with st.sidebar:
     st.title('🥇 Olympic Games Medals')
 
     # Define dropdown selectors for season, year, and country
-    st.write("**Select Season**\n")
-    season_button = st.radio('', ['summer', 'winter'])
-    st.write("**Select Year**")
+    season_button = st.radio('Select Season', ['summer', 'winter'])
     years = olympics[olympics['Season'] == season_button]['Year'].unique()
-    year_dropdown = st.selectbox('', sorted(years))
-    st.write("**Select Country**")
+    year_dropdown = st.selectbox('Select Year', sorted(years))
     countries = sorted(olympics[olympics['Season'] == season_button]['Country'].unique())
-    country_dropdown = st.selectbox('', countries)    
+    country_dropdown = st.selectbox('Select Country', countries)    
 
 # Define a function to filter data based on selected filters
 def filter_data(year, country, season):
