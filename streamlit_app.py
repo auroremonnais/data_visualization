@@ -61,6 +61,9 @@ def create_medal_chart(filtered_data):
     # Define color scale for medals
     medal_colors = {'Gold': '#FFD700', 'Silver': '#C0C0C0', 'Bronze': '#CD7F32'}
 
+    # Create the selectors
+    bar_selector = alt.selection_point()
+    
     # Create a bar chart
     chart = alt.Chart(melted_data).mark_bar().encode(
         x='Medal:N',  # Medal types as x-axis
@@ -69,7 +72,7 @@ def create_medal_chart(filtered_data):
     ).properties(
         width=400,
         height=400
-        )
+        ).add_params(selector)
     return chart
 
 def create_sport_chart(filtered_data):
