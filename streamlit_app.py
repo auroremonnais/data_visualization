@@ -72,7 +72,7 @@ def create_medal_chart(filtered_data):
     ).properties(
         width=400,
         height=400
-        ).add_params(selector)
+        ).add_params(bar_selector)
     return chart
 
 def create_sport_chart(filtered_data):
