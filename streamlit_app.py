@@ -48,7 +48,7 @@ def filter_data(year, country, season):
     return filtered_data
 
 def country_data(country):
-    filtered_data = olympics[(olympics['Country'] == country)]
+    filtered_data = olympics[olympics['Country'] == country]
     return filtered_data
 
 # Define the function to create the visualization based on filtered data
