@@ -32,11 +32,11 @@ with st.sidebar:
     st.subheader('Type of Medals and Sports Analysis')
 
     # Define dropdown selectors for season, year, and country
-    season_button = st.radio('Select Season', ['summer', 'winter'], index=0)
+    season_button = st.radio('Select Season', ['summer', 'winter'])
     years = olympics[olympics['Season'] == season_button]['Year'].unique()
-    year_dropdown = st.selectbox('Select Year', sorted(years), index=26)
+    year_dropdown = st.selectbox('Select Year', sorted(years))
     countries = sorted(olympics[olympics['Season'] == season_button]['Country'].unique())
-    country_dropdown = st.selectbox('Select Country', countries, index=37)
+    country_dropdown = st.selectbox('Select Country', countries)
     
     
     st.subheader('Gender Evolution Analysis')
