@@ -95,8 +95,8 @@ def create_sport_chart(filtered_data):
 def create_gender_chart(filtered_data):
     
     # Filter data for Summer and Winter Olympics
-    summer_data = olympics[olympics['Season'] == 'summer']
-    winter_data = olympics[olympics['Season'] == 'winter']
+    summer_data = filtered_data[filtered_data['Season'] == 'summer']
+    winter_data = filtered_data[filtered_data['Season'] == 'winter']
 
     # Aggregate the data to calculate total male and female athletes per country in each Olympic year for Summer Olympics
     aggregated_summer_data = summer_data.groupby(['Year', 'Country', 'Gender']).size().reset_index(name='Count')
@@ -129,7 +129,7 @@ def create_gender_chart(filtered_data):
     )
 
     # Combine the two charts
-    combined_chart = alt.hconcat(filtered_summer_chart, filtered_winter_chart)
+    combined_chart = alt.hconcat(summer_chart, winter_chart)
 
     return combined_chart
 
