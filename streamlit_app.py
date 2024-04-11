@@ -110,8 +110,8 @@ with col2:
 # Third charts
 
 # Define dropdown selector for country
-country_dropdown = alt.binding_select(options=olympics['Country'].unique().tolist())
-country_selector = alt.selection_single(fields=['Country'], bind=country_dropdown, name='Select Country')
+#country_dropdown = alt.binding_select(options=olympics['Country'].unique().tolist())
+#country_selector = alt.selection_single(fields=['Country'], bind=country_dropdown, name='Select Country')
 
 # Filter data for Summer and Winter Olympics
 summer_data = olympics[olympics['Season'] == 'summer']
@@ -137,9 +137,9 @@ summer_chart = alt.Chart(aggregated_summer_data).mark_line().encode(
 
 # Apply selector and transform the data based on the selected country for Summer Olympics
 filtered_summer_chart = summer_chart.add_selection(
-    country_selector
+    country_dropdown
 ).transform_filter(
-    country_selector
+    country_dropdown
 )
 
 # Create a base chart for Winter Olympics
@@ -156,9 +156,9 @@ winter_chart = alt.Chart(aggregated_winter_data).mark_line().encode(
 
 # Apply selector and transform the data based on the selected country for Winter Olympics
 filtered_winter_chart = winter_chart.add_selection(
-    country_selector
+    country_dropdown
 ).transform_filter(
-    country_selector
+    country_dropdown
 )
 
 # Combine the two charts
