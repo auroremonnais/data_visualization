@@ -31,7 +31,7 @@ with st.sidebar:
     st.title('🥇 Olympic Games Medals')
 
     # Define dropdown selectors for season, year, and country
-    st.write("**Select Season**"\n)
+    st.write("**Select Season**\n")
     season_button = st.radio('', ['summer', 'winter'])
     st.write("**Select Year**")
     years = olympics[olympics['Season'] == season_button]['Year'].unique()
