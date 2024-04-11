@@ -143,7 +143,7 @@ def update():
     return medal_chart, sport_chart, gender_chart
 
 # Initial update
-medal_chart, sport_chart = update()
+medal_chart, sport_chart, gender_chart = update()
 
 st.title('🥇 Olympic Games Medals Data Visualization')
 
