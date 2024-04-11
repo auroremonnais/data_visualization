@@ -38,7 +38,7 @@ with st.sidebar:
     country_dropdown = st.selectbox('Select Country', olympics['Country'].unique())
 
     st.subheader('Gender Evolution Analysis')
-
+    country_selector = st.selectbox('Select Country', olympics['Country'].unique())
 
 # Define a function to filter data based on selected filters
 def filter_data(year, country, season):
@@ -137,9 +137,9 @@ summer_chart = alt.Chart(aggregated_summer_data).mark_line().encode(
 
 # Apply selector and transform the data based on the selected country for Summer Olympics
 filtered_summer_chart = summer_chart.add_selection(
-    country_dropdown
+    country_selector
 ).transform_filter(
-    country_dropdown
+    country_selector
 )
 
 # Create a base chart for Winter Olympics
@@ -156,9 +156,9 @@ winter_chart = alt.Chart(aggregated_winter_data).mark_line().encode(
 
 # Apply selector and transform the data based on the selected country for Winter Olympics
 filtered_winter_chart = winter_chart.add_selection(
-    country_dropdown
+    country_selector
 ).transform_filter(
-    country_dropdown
+    country_selector
 )
 
 # Combine the two charts
