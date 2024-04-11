@@ -68,8 +68,7 @@ def create_medal_chart(filtered_data):
     ).properties(
         width=400,
         height=400,
-        title='Distribution of Medals by type in the Olympic games'
-    )
+        )
     return chart
 
 def create_sport_chart(filtered_data):
@@ -83,8 +82,7 @@ def create_sport_chart(filtered_data):
         tooltip=['Country', 'Year', 'Season', 'Sport', 'Count']
     ).properties(
         width=400,
-        height=400,
-        title='Number of Sports per Country, Year, and Season'
+        height=400
     )
     return chart
 
@@ -103,7 +101,7 @@ st.title('🥇 Olympic Games Medals Data Visualization')
 # Display charts in two columns
 col1, col2 = st.columns(2)
 with col1:
-    st.subheader('Distribution of Medals per Type')
+    st.subheader('Distribution of Medals per Type of Medals')
     st.altair_chart(medal_chart, use_container_width=True)
 with col2:
     st.subheader('Distribution of Medals per Sport')
