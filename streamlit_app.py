@@ -47,7 +47,7 @@ def filter_data(year, country, season):
     filtered_data = olympics[(olympics['Year'] == year) & (olympics['Country'] == country) & (olympics['Season'] == season)]
     return filtered_data
 
-def country_data(country):
+def get_country_data(country):
     filtered_data = olympics[olympics['Country'] == country]
     return filtered_data
 
@@ -136,7 +136,7 @@ def create_gender_chart(filtered_data):
 # Define the function to update the visualization when filters change
 def update():
     filtered_data = filter_data(year_dropdown, country_dropdown, season_button)
-    country_data = country_data(country_dropdown)
+    country_data = get_country_data(country_dropdown)
     medal_chart = create_medal_chart(filtered_data)
     sport_chart = create_sport_chart(filtered_data)
     gender_chart = create_gender_chart(country_data)
