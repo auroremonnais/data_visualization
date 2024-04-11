@@ -47,7 +47,7 @@ def get_country_data(country):
     return filtered_data
 
 # Define the function to create the visualization based on filtered data
-def create_medal_chart(filtered_data):
+def create_medal_chart(filtered_data, selection):
     # Aggregate the filtered data to calculate total medals per type in each Olympic year
     aggregated_data = filtered_data.groupby(['Year', 'Country', 'Season']).agg(
         Gold=('Gold', 'sum'),
@@ -69,7 +69,7 @@ def create_medal_chart(filtered_data):
     ).properties(
         width=400,
         height=400
-    )
+    ).add_selection(selection)
     return chart
 
 def create_sport_chart(filtered_data, selection):
@@ -132,13 +132,13 @@ def create_gender_chart(filtered_data):
 def update(selection):
     filtered_data = filter_data(year_dropdown, country_dropdown, season_button)
     country_data = get_country_data(country_dropdown)
-    medal_chart = create_medal_chart(filtered_data)
+    medal_chart = create_medal_chart(filtered_data, selection)
     sport_chart = create_sport_chart(filtered_data, selection)
     gender_chart = create_gender_chart(country_data)
     return medal_chart, sport_chart, gender_chart
 
 # Initial selection
-selection = alt.selection_single(empty='all', fields=['Sport'])
+selection = alt.selection_single(fields=['Sport'], empty='all')
 
 # Initial update
 medal_chart, sport_chart, gender_chart = update(selection)
