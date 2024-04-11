@@ -29,17 +29,14 @@ olympics['Bronze']=olympics['Medal'].apply(lambda x: 1 if x == 'Bronze' else 0)
 # Sidebar
 with st.sidebar:
     st.title('🥇 Olympic Games Medals')
-    st.subheader('Type of Medals and Sports Analysis')
 
     # Define dropdown selectors for season, year, and country
-    season_button = st.radio('Select Season', ['summer', 'winter'])
+    season_button = st.radio('####Select Season', ['summer', 'winter'])
     years = olympics[olympics['Season'] == season_button]['Year'].unique()
-    year_dropdown = st.selectbox('Select Year', sorted(years))
+    year_dropdown = st.selectbox('####Select Year', sorted(years))
     countries = sorted(olympics[olympics['Season'] == season_button]['Country'].unique())
-    country_dropdown = st.selectbox('Select Country', countries)
-    
-    
-    st.subheader('Gender Evolution Analysis')
+    country_dropdown = st.selectbox('####Select Country', countries)
+
     
 
 # Define a function to filter data based on selected filters
