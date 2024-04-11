@@ -138,7 +138,7 @@ def update(selection):
     return medal_chart, sport_chart, gender_chart
 
 # Initial selection
-selection = alt.selection_single(fields=['Sport'], empty='all')
+selection = alt.selection_single(fields=['Sport'], empty='all', name='sport_selection')
 
 # Initial update
 medal_chart, sport_chart, gender_chart = update(selection)
