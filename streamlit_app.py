@@ -110,8 +110,8 @@ with col2:
 # Third charts
 
 # Define dropdown selector for country
-#country_dropdown = alt.binding_select(options=olympics['Country'].unique().tolist())
-#country_selector = alt.selection_single(fields=['Country'], bind=country_dropdown, name='Select Country')
+country_dropdown = alt.binding_select(options=olympics['Country'].unique().tolist())
+country_selector = alt.selection_single(fields=['Country'], bind=country_dropdown, name='Select Country')
 
 # Filter data for Summer and Winter Olympics
 summer_data = olympics[olympics['Season'] == 'summer']
