@@ -68,7 +68,7 @@ def create_medal_chart(filtered_data):
     chart = alt.Chart(melted_data).mark_bar().encode(
         x='Medal:N',  # Medal types as x-axis
         y='Count:Q',  # Count of medals as y-axis
-        color=alt.Color('Medal:N', scale=alt.Scale(domain=['Gold', 'Silver', 'Bronze'], range=[medal_colors['Gold'], medal_colors['Silver'], medal_colors['Bronze']])),
+        color=alt.condition(bar_selector, alt.Color('Medal:N', scale=alt.Scale(domain=['Gold', 'Silver', 'Bronze'], range=[medal_colors['Gold'], medal_colors['Silver'], medal_colors['Bronze']])), alt.value('lightgray'))
     ).properties(
         width=400,
         height=400
