@@ -32,13 +32,13 @@ with st.sidebar:
 
     # Define dropdown selectors for season, year, and country
     st.subheader('Select Season')
-    season_button = st.radio(['summer', 'winter'])
+    season_button = st.radio('', ['summer', 'winter'])
     st.subheader('Select Year')
     years = olympics[olympics['Season'] == season_button]['Year'].unique()
-    year_dropdown = st.selectbox(sorted(years))
+    year_dropdown = st.selectbox('', sorted(years))
     st.subheader('Select Country')
     countries = sorted(olympics[olympics['Season'] == season_button]['Country'].unique())
-    country_dropdown = st.selectbox(countries)
+    country_dropdown = st.selectbox('', countries)
 
     
 
