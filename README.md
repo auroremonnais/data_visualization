@@ -11,4 +11,11 @@ Three charts will then changed according to the selcted filters:
 * Line Chart - Evolution of the number of Medals per Gender through the Years
 
 ## Instruction
-Import 
+* Import the necessary librairies:
+  * streamlit
+  * pandas
+  * altair
+* Get the streamlit_app.py file
+* Save it
+* Go to streamlit.app
+* Link the app with your github repository to see the project on the web
