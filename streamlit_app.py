@@ -94,6 +94,46 @@ def create_linked_chart(filtered_data):
 
     return medal_chart, pie_chart
 
+def create_gender_chart(filtered_data):
+    
+    # Filter data for Summer and Winter Olympics
+    summer_data = filtered_data[filtered_data['Season'] == 'summer']
+    winter_data = filtered_data[filtered_data['Season'] == 'winter']
+
+    # Aggregate the data to calculate total male and female athletes per country in each Olympic year for Summer Olympics
+    aggregated_summer_data = summer_data.groupby(['Year', 'Country', 'Gender']).size().reset_index(name='Count')
+
+    # Aggregate the data to calculate total male and female athletes per country in each Olympic year for Winter Olympics
+    aggregated_winter_data = winter_data.groupby(['Year', 'Country', 'Gender']).size().reset_index(name='Count')
+
+    # Create a base chart for Summer Olympics
+    summer_chart = alt.Chart(aggregated_summer_data).mark_line().encode(
+        x=alt.X('Year:O', axis=alt.Axis(title='Year')),
+        y='Count:Q',
+        color='Gender:N',
+        tooltip=['Year:O', 'Gender:N', 'Count:Q']
+    ).properties(
+        width=400,
+        height=400,
+        title='Summer Olympics'
+    )
+
+    # Create a base chart for Winter Olympics
+    winter_chart = alt.Chart(aggregated_winter_data).mark_line().encode(
+        x=alt.X('Year:O', axis=alt.Axis(title='Year')),
+        y='Count:Q',
+        color='Gender:N',
+        tooltip=['Year:O', 'Gender:N', 'Count:Q']
+    ).properties(
+        width=400,
+        height=400,
+        title='Winter Olympics'
+    )
+
+    # Combine the two charts
+    combined_chart = alt.hconcat(summer_chart, winter_chart)
+
+    return combined_chart
 
 # Define the function to update the visualization when filters change
 def update():
