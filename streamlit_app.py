@@ -47,6 +47,34 @@ def get_country_data(country):
     return filtered_data
 
 # Define the function to create the visualization based on filtered data
+#def create_medal_chart(filtered_data):
+# Aggregate the filtered data to calculate total medals per type in each Olympic year
+#    aggregated_data = filtered_data.groupby(['Year', 'Country', 'Season']).agg(
+#        Gold=('Gold', 'sum'),
+#        Silver=('Silver', 'sum'),
+#        Bronze=('Bronze', 'sum')
+#    ).reset_index()
+
+#    # Melt the DataFrame to convert the wide format to long format
+#    melted_data = pd.melt(aggregated_data, id_vars=['Year', 'Country', 'Season'], var_name='Medal', value_name='Count')
+#
+#    # Define color scale for medals
+#    medal_colors = {'Gold': '#FFD700', 'Silver': '#C0C0C0', 'Bronze': '#CD7F32'}
+#
+#    # Create the selectors
+#    bar_selector = alt.selection_point()
+    
+#    # Create a bar chart
+#    chart = alt.Chart(melted_data).mark_bar().encode(
+#        x='Medal:N',  # Medal types as x-axis
+#        y='Count:Q',  # Count of medals as y-axis
+#        color=alt.condition(bar_selector, alt.Color('Medal:N', scale=alt.Scale(domain=['Gold', 'Silver', 'Bronze'], range=[medal_colors['Gold'], medal_colors['Silver'], medal_colors['Bronze']])), alt.value('lightgray'))
+#    ).properties(
+#        width=400,
+#        height=400
+#        ).add_params(bar_selector)
+#    return chart
+
 def create_medal_chart(filtered_data):
     # Aggregate the filtered data to calculate total medals per type in each Olympic year
     aggregated_data = filtered_data.groupby(['Year', 'Country', 'Season']).agg(
@@ -62,8 +90,8 @@ def create_medal_chart(filtered_data):
     medal_colors = {'Gold': '#FFD700', 'Silver': '#C0C0C0', 'Bronze': '#CD7F32'}
 
     # Create the selectors
-    bar_selector = alt.selection_point()
-    
+    bar_selector = alt.selection(type='single', fields=['Medal'], empty='none')
+
     # Create a bar chart
     chart = alt.Chart(melted_data).mark_bar().encode(
         x='Medal:N',  # Medal types as x-axis
@@ -72,7 +100,7 @@ def create_medal_chart(filtered_data):
     ).properties(
         width=400,
         height=400
-        ).add_params(bar_selector)
+    ).add_selection(bar_selector)
     return chart
 
 def create_sport_chart(filtered_data):
