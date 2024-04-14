@@ -1,4 +1,3 @@
-# Imports
 import streamlit as st
 import pandas as pd
 import altair as alt
@@ -15,16 +14,16 @@ summer_olympics = pd.read_csv('SummerOlympics.csv')
 winter_olympics = pd.read_csv('WinterOlympics.csv')
 
 # Creation of the 'Season' Column
-summer_olympics['Season']='summer'
-winter_olympics['Season']='winter'
+summer_olympics['Season'] = 'summer'
+winter_olympics['Season'] = 'winter'
 
 # Concatenation of the two tables to have a unique table
 olympics = pd.concat([summer_olympics, winter_olympics], ignore_index=True).sort_values(by='Year')
 
 # Creation of the columns 'Gold', 'Silver' and 'Bronze'
-olympics['Gold']=olympics['Medal'].apply(lambda x: 1 if x == 'Gold' else 0)
-olympics['Silver']=olympics['Medal'].apply(lambda x: 1 if x == 'Silver' else 0)
-olympics['Bronze']=olympics['Medal'].apply(lambda x: 1 if x == 'Bronze' else 0)
+olympics['Gold'] = olympics['Medal'].apply(lambda x: 1 if x == 'Gold' else 0)
+olympics['Silver'] = olympics['Medal'].apply(lambda x: 1 if x == 'Silver' else 0)
+olympics['Bronze'] = olympics['Medal'].apply(lambda x: 1 if x == 'Bronze' else 0)
 
 # Sidebar
 with st.sidebar:
@@ -47,51 +46,55 @@ def get_country_data(country):
     return filtered_data
 
 # Define the function to create the visualization based on filtered data
-def create_medal_chart(filtered_data):
+def create_linked_chart(filtered_data):
+    # Medal Chart
     # Aggregate the filtered data to calculate total medals per type in each Olympic year
-    aggregated_data = filtered_data.groupby(['Year', 'Country', 'Season']).agg(
+    aggregated_medal_data = filtered_data.groupby(['Year', 'Country', 'Season']).agg(
         Gold=('Gold', 'sum'),
         Silver=('Silver', 'sum'),
         Bronze=('Bronze', 'sum')
     ).reset_index()
 
     # Melt the DataFrame to convert the wide format to long format
-    melted_data = pd.melt(aggregated_data, id_vars=['Year', 'Country', 'Season'], var_name='Medal', value_name='Count')
+    melted_medal_data = pd.melt(aggregated_medal_data, id_vars=['Year', 'Country', 'Season'], var_name='Medal', value_name='Count')
 
     # Define color scale for medals
     medal_colors = {'Gold': '#FFD700', 'Silver': '#C0C0C0', 'Bronze': '#CD7F32'}
 
-    # Create the selectors
-    bar_selector = alt.selection_point()
-    
-    # Create a bar chart
-    chart = alt.Chart(melted_data).mark_bar().encode(
+    # Create the selectors for medal chart
+    bar_selector = alt.selection(type='single', fields=['Medal'], empty='none')
+
+    # Create Medal Chart
+    medal_chart = alt.Chart(melted_medal_data).mark_bar().encode(
         x='Medal:N',  # Medal types as x-axis
         y='Count:Q',  # Count of medals as y-axis
         color=alt.condition(bar_selector, alt.Color('Medal:N', scale=alt.Scale(domain=['Gold', 'Silver', 'Bronze'], range=[medal_colors['Gold'], medal_colors['Silver'], medal_colors['Bronze']])), alt.value('lightgray'))
     ).properties(
         width=400,
         height=400
-        ).add_params(bar_selector)
-    return chart
+    ).add_selection(bar_selector)
 
-def create_sport_chart(filtered_data):
+    # Sport Chart
     # Aggregate the filtered data to count the number of sports per country in each Olympic year
-    aggregated_data = filtered_data.groupby(['Year', 'Country', 'Season', 'Sport']).size().reset_index(name='Count')
+    aggregated_sport_data = filtered_data.groupby(['Year', 'Country', 'Season', 'Sport']).size().reset_index(name='Count')
 
-    # Create the selectors
-    pie_selector = alt.selection_point()
-    
-    # Create a pie chart
-    chart = alt.Chart(aggregated_data).mark_arc().encode(
+    # Create the selectors for sport chart
+    pie_selector = alt.selection(type='single', fields=['Sport'], empty='none')
+
+    # Create Sport Chart
+    sport_chart = alt.Chart(aggregated_sport_data).mark_arc().encode(
         theta='Count:Q',
         color=alt.condition(pie_selector, 'Sport:N', alt.value('lightgray')),
         tooltip=['Country', 'Year', 'Season', 'Sport', 'Count']
     ).properties(
         width=400,
         height=400
-    ).add_params(pie_selector)
-    return chart
+    ).add_selection(pie_selector)
+
+    # Link the two charts
+    combined_chart = medal_chart | sport_chart
+
+    return combined_chart
 
 def create_gender_chart(filtered_data):
     
@@ -138,24 +141,17 @@ def create_gender_chart(filtered_data):
 def update():
     filtered_data = filter_data(year_dropdown, country_dropdown, season_button)
     country_data = get_country_data(country_dropdown)
-    medal_chart = create_medal_chart(filtered_data)
-    sport_chart = create_sport_chart(filtered_data)
+    linked_chart = create_linked_chart(filtered_data)
     gender_chart = create_gender_chart(country_data)
-    return medal_chart, sport_chart, gender_chart
+    return linked_chart, gender_chart
 
 # Initial update
-medal_chart, sport_chart, gender_chart = update()
+linked_chart, gender_chart = update()
 
 st.title('🥇 Olympic Games Medals Data Visualization')
 
-# Display the two first charts in two columns
-col1, col2 = st.columns(2)
-with col1:
-    st.subheader('Distribution of Medals per Type')
-    st.altair_chart(medal_chart, use_container_width=True)
-with col2:
-    st.subheader('Distribution of Medals per Sport')
-    st.altair_chart(sport_chart, use_container_width=True)
+# Display the linked chart
+st.write(linked_chart)
 
 # Display the third chart underneath the existing charts
 st.subheader('Total Number of Medals by Gender Evolution')
