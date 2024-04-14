@@ -46,6 +46,7 @@ def get_country_data(country):
     filtered_data = olympics[olympics['Country'] == country]
     return filtered_data
 
+# Define the function to create the visualization based on filtered data
 def create_medal_chart(filtered_data):
     # Aggregate the filtered data to calculate total medals per type in each Olympic year
     aggregated_data = filtered_data.groupby(['Year', 'Country', 'Season']).agg(
@@ -61,8 +62,8 @@ def create_medal_chart(filtered_data):
     medal_colors = {'Gold': '#FFD700', 'Silver': '#C0C0C0', 'Bronze': '#CD7F32'}
 
     # Create the selectors
-    bar_selector = alt.selection(type='single', fields=['Medal'], empty='none')
-
+    bar_selector = alt.selection_point()
+    
     # Create a bar chart
     chart = alt.Chart(melted_data).mark_bar().encode(
         x='Medal:N',  # Medal types as x-axis
@@ -71,7 +72,7 @@ def create_medal_chart(filtered_data):
     ).properties(
         width=400,
         height=400
-    ).add_selection(bar_selector)
+        ).add_params(bar_selector)
     return chart
 
 def create_sport_chart(filtered_data):
@@ -79,8 +80,8 @@ def create_sport_chart(filtered_data):
     aggregated_data = filtered_data.groupby(['Year', 'Country', 'Season', 'Sport']).size().reset_index(name='Count')
 
     # Create the selectors
-    pie_selector = alt.selection(type='single', fields=['Sport'], empty='none')
-
+    pie_selector = alt.selection_point()
+    
     # Create a pie chart
     chart = alt.Chart(aggregated_data).mark_arc().encode(
         theta='Count:Q',
@@ -89,7 +90,7 @@ def create_sport_chart(filtered_data):
     ).properties(
         width=400,
         height=400
-    ).add_selection(pie_selector)
+    ).add_params(pie_selector)
     return chart
 
 def create_gender_chart(filtered_data):
