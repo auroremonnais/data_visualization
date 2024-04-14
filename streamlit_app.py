@@ -34,7 +34,7 @@ with st.sidebar:
     season_button = st.radio('Select Season', ['summer', 'winter'])
     years = olympics[olympics['Season'] == season_button]['Year'].unique()
     year_dropdown = st.selectbox('Select Year', sorted(years))
-    countries = sorted(olympics[olympics['Season'] == season_button]['Country'].unique())
+    countries = sorted(olympics[(olympics['Season'] == season_button) & (olympics['Year'] == year_dropdown)]['Country'].unique())
     country_dropdown = st.selectbox('Select Country', countries)    
 
 # Define a function to filter data based on selected filters
