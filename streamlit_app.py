@@ -58,38 +58,37 @@ def create_linked_chart(filtered_data):
     # Melt the DataFrame to convert the wide format to long format
     melted_medal_data = pd.melt(aggregated_medal_data, id_vars=['Year', 'Country', 'Season'], var_name='Medal', value_name='Count')
 
+    # Aggregate the filtered data to count the number of sports per country in each Olympic year
+    aggregated_sport_data = filtered_data.groupby(['Year', 'Country', 'Season', 'Sport']).size().reset_index(name='Count')
+    
     # Define color scale for medals
     medal_colors = {'Gold': '#FFD700', 'Silver': '#C0C0C0', 'Bronze': '#CD7F32'}
 
     # Create the selectors for medal chart
-    bar_selector = alt.selection(type='single', fields=['Medal'], empty='none')
+    medal_selector = alt.selection_point()
+
+    # Create the selectors for sport chart
+    sport_selector = alt.selection_point()
 
     # Create Medal Chart
     medal_chart = alt.Chart(melted_medal_data).mark_bar().encode(
         x='Medal:N',  # Medal types as x-axis
         y='Count:Q',  # Count of medals as y-axis
-        color=alt.condition(bar_selector, alt.Color('Medal:N', scale=alt.Scale(domain=['Gold', 'Silver', 'Bronze'], range=[medal_colors['Gold'], medal_colors['Silver'], medal_colors['Bronze']])), alt.value('lightgray'))
+        color=alt.condition(medal_selector, alt.Color('Medal:N', scale=alt.Scale(domain=['Gold', 'Silver', 'Bronze'], range=[medal_colors['Gold'], medal_colors['Silver'], medal_colors['Bronze']])), alt.value('lightgray'))
     ).properties(
         width=400,
         height=400
-    ).add_selection(bar_selector)
-
-    # Sport Chart
-    # Aggregate the filtered data to count the number of sports per country in each Olympic year
-    aggregated_sport_data = filtered_data.groupby(['Year', 'Country', 'Season', 'Sport']).size().reset_index(name='Count')
-
-    # Create the selectors for sport chart
-    pie_selector = alt.selection(type='single', fields=['Sport'], empty='none')
+    ).add_selection(medal_selector).transform_filter(sport_selector)
 
     # Create Sport Chart
     sport_chart = alt.Chart(aggregated_sport_data).mark_arc().encode(
         theta='Count:Q',
-        color=alt.condition(pie_selector, 'Sport:N', alt.value('lightgray')),
+        color=alt.condition(sport_selector, 'Sport:N', alt.value('lightgray')),
         tooltip=['Country', 'Year', 'Season', 'Sport', 'Count']
     ).properties(
         width=400,
         height=400
-    ).add_selection(pie_selector)
+    ).add_selection(sport_selector).transform_filter(medal_selector)
 
     # Link the two charts
     combined_chart = medal_chart | sport_chart
